@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './index';
 import Task from './components/Task';
 import { IdeleteTask, ITask, IeditTask, IdoneTask } from './models';
-import { nanoid } from 'nanoid';
 
 function App() {
   const [tasks, setTasks] = useState<ITask[]>([]);
@@ -13,15 +12,17 @@ function App() {
   const deleteTask: IdeleteTask = { //функция удаляет задачу из списка
     deleteTask: function (id: string): void {
       setTasks(prevTasks => ([...prevTasks.filter(i => i.id !== id)]));
-    }};
+    }
+  };
 
   const editTask: IeditTask = {  //функция помещает контент задачи в форму для редактирования
     editTask: function (id: string, content: string): void {
       setForm(content);
       setIdEdit(id);
-    }};
+    }
+  };
 
-  const doneTask: IdoneTask = {  //фугкция изменяет статус задачи на выполнена
+  const doneTask: IdoneTask = {  //функция изменяет статус задачи на выполнена
     doneTask: function (id: string): void {
       const newTasks = tasks.map((i) => {
         if (i.id === id) {
@@ -29,10 +30,13 @@ function App() {
         } else return i
       })
       setTasks(newTasks);
-    }};
+    }
+  };
+
+  const generateID = () => { return `${(~~(Math.random() * 1e8)).toString(16)}` }; //функция генерирует ID
 
   const listTask = tasks.map(i => ( //передаём каждую задачу для отрисовки в компонент Task
-    <Task key = {i.id} task={i} deleteTask={deleteTask} editTask={editTask} doneTask={doneTask} />
+    <Task key={i.id} task={i} deleteTask={deleteTask} editTask={editTask} doneTask={doneTask} />
   ));
 
   const submitHandler = (e: React.FormEvent) => { //добавляем задачу из формы в список
@@ -55,7 +59,7 @@ function App() {
     const newTask = { //если добавляем новую задачу
       content: form,
       status: true,
-      id: nanoid()
+      id: generateID()
     };
     setTasks(prevTasks => ([...prevTasks, newTask]));
     setForm('');
@@ -71,8 +75,10 @@ function App() {
         ToDo List
       </header>
       <form className='form-add' onSubmit={submitHandler}>
-        <input type='text' className='input-add' value={form} onChange={changeHandler} />
-        <button className='btn-add'>Add</button>
+        <div className='box-form'>
+          <input type='text' className='input-add' value={form} onChange={changeHandler} />
+          <button className='btn-add'>Add</button>
+        </div>
       </form>
       {error && <div className='box-error'>{error}</div>}
       <div className='container-list-task'>
