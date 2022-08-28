@@ -17,16 +17,18 @@ function Task(props: TaskProps) {
 
   useEffect(() => {
     setTask(props.task);
-    if (task.status === false) { setBtns('none') };
+    if (task.status === false) { setBtns('none') }; //если статус задачи-выполнена, скрываем все кнопки 
   }, [props.task, task.status]);
 
   return (
     <div key={task.id} className={(task.status === false) ? "container-task task-done" : "container-task"}>
       <div className='box-task'>
         <div className='content-task'>{task.content}</div>
-        <button className={`btn-edit ${classBtns}`} onClick={(e) => editTask(task.id, task.content)}></button>
-        <button className={`btn-delete ${classBtns}`} onClick={(e) => deleteTask(task.id)}></button>
-        <button className={`btn-done ${classBtns}`} onClick={(e) => doneTask(task.id)}></button>
+        <div className='box-btns'>
+          <button className={`btn-edit ${classBtns}`} onClick={(e) => editTask(task.id, task.content)}></button>
+          <button className={`btn-delete ${classBtns}`} onClick={(e) => deleteTask(task.id)}></button>
+          <button className={`btn-done ${classBtns}`} onClick={(e) => doneTask(task.id)}></button>
+        </div>
       </div>
     </div>
   )
