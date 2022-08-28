@@ -54,6 +54,7 @@ function App() {
       })
       setTasks(newTasks);
       setForm('');
+      setIdEdit('');
       return
     }
     const newTask = { //если добавляем новую задачу
